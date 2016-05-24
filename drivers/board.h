@@ -43,7 +43,7 @@
 #include "EEPROM.h"
 #include "PWM_In.h"
 #include "usart1.h"
-void SKYBOARD_Quadcopter_board_Init(void);
+void SKYBOARD_Init(void);
 void SysTick_IRQ(void);
 uint32_t GetSysTime_us(void);
 
