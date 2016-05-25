@@ -445,6 +445,16 @@ void Send_DEBUG(void)
 	data_to_send[_cnt++]=BYTE1(IMU_QCF.yaw);
 	data_to_send[_cnt++]=BYTE0(IMU_QCF.yaw);
 	
+	data_to_send[_cnt++]=BYTE3(EarthAcc.x);
+	data_to_send[_cnt++]=BYTE2(EarthAcc.x);
+	data_to_send[_cnt++]=BYTE1(EarthAcc.x);
+	data_to_send[_cnt++]=BYTE0(EarthAcc.x);
+	
+	data_to_send[_cnt++]=BYTE3(EarthAcc.y);
+	data_to_send[_cnt++]=BYTE2(EarthAcc.y);
+	data_to_send[_cnt++]=BYTE1(EarthAcc.y);
+	data_to_send[_cnt++]=BYTE0(EarthAcc.y);
+	
 	data_to_send[_cnt++]=BYTE3(EarthAcc.z);
 	data_to_send[_cnt++]=BYTE2(EarthAcc.z);
 	data_to_send[_cnt++]=BYTE1(EarthAcc.z);

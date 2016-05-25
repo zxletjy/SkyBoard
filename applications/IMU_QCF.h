@@ -16,9 +16,14 @@ typedef struct
 
 typedef struct
 {
-	float pitch;
+	float pitch;//单位是度
 	float roll;
 	float yaw;
+	
+	float pitch_r;//单位是弧度
+	float roll_r;
+	float yaw_r;
+	
 	LPF2nd_Struct Acc_LPF2nd;
 	
 	float Q1;	//四元数
@@ -32,6 +37,7 @@ typedef struct
 	float acc_lpf_x;	//二阶低通滤波之后的加速度数据
 	float acc_lpf_y;
 	float acc_lpf_z;
+	
 	float gyro_cf_x;	//修正之后数据
 	float gyro_cf_y;
 	float gyro_cf_z;
