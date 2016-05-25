@@ -513,6 +513,11 @@
               <FileType>5</FileType>
               <FilePath>..\..\applications\Scheduler.h</FilePath>
             </File>
+            <File>
+              <FileName>IMU_QCF.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\applications\IMU_QCF.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -527,16 +532,6 @@
               <FileName>Math.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\Math\Math.h</FilePath>
-            </File>
-            <File>
-              <FileName>Quaternion.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\Math\Quaternion.c</FilePath>
-            </File>
-            <File>
-              <FileName>Quaternion.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\Math\Quaternion.h</FilePath>
             </File>
             <File>
               <FileName>Vector3.h</FileName>
