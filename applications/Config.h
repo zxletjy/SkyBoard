@@ -5,6 +5,7 @@
 #include "PID.h"
 #include "Filter.h"
 #include "IMU.h"
+#include "IMU_QCF.h"
 #include "Scheduler.h"
 #include "DT.h"
 #include "Motor.h"
