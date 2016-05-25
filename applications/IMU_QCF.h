@@ -28,6 +28,14 @@ typedef struct
 	
 	float ki;//¼ÓËÙ¶ÈÈ¨ÖØ£¬Ô½´óÔòÏò¼ÓËÙ¶È²âÁ¿ÖµÊÕÁ²Ô½¿
 	float kp;//Îó²î»ı·ÖÔöÒæ
+	
+	float acc_lpf_x;	//¶ş½×µÍÍ¨ÂË²¨Ö®ºóµÄ¼ÓËÙ¶ÈÊı¾İ
+	float acc_lpf_y;
+	float acc_lpf_z;
+	float gyro_cf_x;	//ĞŞÕıÖ®ºóÊı¾İ
+	float gyro_cf_y;
+	float gyro_cf_z;
+	
 }IMU_QCF_Struct;
 
 extern IMU_QCF_Struct IMU_QCF;

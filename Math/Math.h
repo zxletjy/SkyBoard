@@ -5,7 +5,6 @@
 #include <stddef.h>
 #include <math.h>
 #include "Vector3.h"
-#include "Quaternion.h"
 
 
 #define M_PI 3.141592653f

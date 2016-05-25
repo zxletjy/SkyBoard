@@ -86,7 +86,6 @@ void IMU_QCF_Update(IMU_QCF_Struct *imu, float gx, float gy, float gz, float ax,
 
 	imu->roll = 	atan2f(2.0f*(imu->Q1*imu->Q2 + imu->Q3*imu->Q4),1 - 2.0f*(imu->Q2*imu->Q2 + imu->Q3*imu->Q3)) * RAD_TO_DEG;
 
-
 	imu->pitch = 2.0f*(imu->Q1*imu->Q3 - imu->Q2*imu->Q4);
 	// 使用safe_asin()来处理pitch接近90/-90时的奇点
 	if (isnan(imu->pitch)) {

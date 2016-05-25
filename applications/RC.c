@@ -16,7 +16,7 @@ void Cal_Command(void)
 		//-------------------º½ÏòËø¶¨------------------
 	if (abs(rc.Command[YAW]) < 70 && rc.rawData[THROTTLE] > RC_MINCHECK) 
 	{
-		int16_t dif = angle.z - magHold;
+		int16_t dif = IMU_QCF.yaw - magHold;
 		if (dif <= -180)
 			dif += 360;
 		if (dif >= +180)
@@ -26,7 +26,7 @@ void Cal_Command(void)
 		rc.Command[YAW] -= dif * fc.pid[PIDMAG].kP * 0.1;  	
 	} 	
 	else
-		magHold = angle.z;	
+		magHold = IMU_QCF.yaw;	
 		
 }
 

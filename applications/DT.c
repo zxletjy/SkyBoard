@@ -137,13 +137,13 @@ void Send_Status(void)
 	data_to_send[_cnt++]=0x01;
 	data_to_send[_cnt++]=0;
 	
-	_temp = (int)(angle.x*100);
+	_temp = (int)(IMU_QCF.roll*100);
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = (int)(angle.y*100);
+	_temp = (int)(IMU_QCF.pitch*100);
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = (int)(angle.z*100);
+	_temp = (int)(IMU_QCF.yaw*100);
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
 	
@@ -418,6 +418,87 @@ void Send_Data(u8 *dataToSend , u8 length)
 	USB_Virtual_Serial_Send(dataToSend, length);
 }
 
+void Send_DEBUG(void)
+{
+	u8 _cnt=0;
+	u8 i;
+	vs16 _temp;
+	u8 sum = 0;
+	
+	data_to_send[_cnt++]=0xAA;
+	data_to_send[_cnt++]=0xAA;
+	data_to_send[_cnt++]=0xF1;
+	data_to_send[_cnt++]=0;
+	
+	data_to_send[_cnt++]=BYTE3(IMU_QCF.roll);
+	data_to_send[_cnt++]=BYTE2(IMU_QCF.roll);
+	data_to_send[_cnt++]=BYTE1(IMU_QCF.roll);
+	data_to_send[_cnt++]=BYTE0(IMU_QCF.roll);
+	
+	data_to_send[_cnt++]=BYTE3(IMU_QCF.pitch);
+	data_to_send[_cnt++]=BYTE2(IMU_QCF.pitch);
+	data_to_send[_cnt++]=BYTE1(IMU_QCF.pitch);
+	data_to_send[_cnt++]=BYTE0(IMU_QCF.pitch);
+	
+	data_to_send[_cnt++]=BYTE3(IMU_QCF.yaw);
+	data_to_send[_cnt++]=BYTE2(IMU_QCF.yaw);
+	data_to_send[_cnt++]=BYTE1(IMU_QCF.yaw);
+	data_to_send[_cnt++]=BYTE0(IMU_QCF.yaw);
+	
+	data_to_send[_cnt++]=BYTE3(EarthAcc.z);
+	data_to_send[_cnt++]=BYTE2(EarthAcc.z);
+	data_to_send[_cnt++]=BYTE1(EarthAcc.z);
+	data_to_send[_cnt++]=BYTE0(EarthAcc.z);
+	
+	data_to_send[3] = _cnt-4;
+	
+	
+	for(i=0;i<_cnt;i++)
+		sum += data_to_send[i];
+	
+	data_to_send[_cnt++]=sum;
+	
+	Send_Data(data_to_send, _cnt);
+}
+void Data_Exchange(void)
+{
+	static int cnt = 0;
+	
+	switch(cnt)
+	{
+		case SEND_STATES:
+			Send_Status();
+			cnt++;
+			break;
+		case SEND_SENSER: 
+			Send_Senser();
+			cnt++;
+			break;
+		case SEND_PID1:
+			Send_PID1();		
+			cnt++;
+			break;
+		case SEND_PID2:
+			Send_PID2();			
+			cnt++;
+			break;
+		case SEND_RC:
+			Send_RCData();
+			cnt++;
+			break;
+		case SEND_MOTORPWM:
+			Send_MotoPWM();
+			cnt++;
+			break;
+		case SEND_DEBUG:
+			Send_DEBUG();
+			cnt++;
+			break;
+		default:
+			cnt=0;
+			break;
+	}
+}
 
 void Failsafe_Check(void)
 {
@@ -463,40 +544,5 @@ void Failsafe_Check(void)
 		{
 			dt.FailCheck = 0;
 		}
-	}
-}
-void Data_Exchange(void)
-{
-	static int cnt = 0;
-	
-	switch(cnt)
-	{
-		case SEND_STATES:
-			Send_Status();
-			cnt++;
-			break;
-		case SEND_SENSER: 
-			Send_Senser();
-			cnt++;
-			break;
-		case SEND_PID1:
-			Send_PID1();		
-			cnt++;
-			break;
-		case SEND_PID2:
-			Send_PID2();			
-			cnt++;
-			break;
-		case SEND_RC:
-			Send_RCData();
-			cnt++;
-			break;
-		case SEND_MOTORPWM:
-			Send_MotoPWM();
-			cnt++;
-			break;
-		default:
-			cnt=0;
-			break;
 	}
 }

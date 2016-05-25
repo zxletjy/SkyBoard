@@ -13,11 +13,9 @@ enum
 	SEND_SENSER,
 	SEND_PID1,
 	SEND_PID2,
-	SEND_PID3,
 	SEND_RC,
-	SEND_OFFSET,
 	SEND_MOTORPWM,
-	SEND_BAT
+	SEND_DEBUG
 };
 void Data_Receive_Anl(u8 *data_buf,u8 num);
 //检查是否有接收到无线数据

@@ -3,11 +3,11 @@
 
 #include "Config.h"
 //欧拉角表示的飞行器姿态
-extern Vector3f angle;
+//extern Vector3f angle;
 
 extern Vector3f Gyro, Acc; 
-
-extern LPF2ndData_t Acc_lpf_2nd;
+extern Vector3f EarthAcc;
+//extern LPF2ndData_t Acc_lpf_2nd;
 extern float magHold;
 
 void IMU_Init(void);

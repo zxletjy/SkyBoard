@@ -47,8 +47,8 @@ void Attitude_Outter_Loop(void)
 	Vector3f Gyro_this = {0,0,0};
 	
 	//计算角度误差值
-	errorAngle[ROLL] = constrain_int32((rc.Command[ROLL] * 2) , -((int)FLYANGLE_MAX), +FLYANGLE_MAX) - angle.x * 10; 
-	errorAngle[PITCH] = constrain_int32((rc.Command[PITCH] * 2) , -((int)FLYANGLE_MAX), +FLYANGLE_MAX) - angle.y * 10; 
+	errorAngle[ROLL] = constrain_int32((rc.Command[ROLL] * 2) , -((int)FLYANGLE_MAX), +FLYANGLE_MAX) - IMU_QCF.roll * 10; 
+	errorAngle[PITCH] = constrain_int32((rc.Command[PITCH] * 2) , -((int)FLYANGLE_MAX), +FLYANGLE_MAX) - IMU_QCF.pitch * 10; 
 	
 	//获取角速度
 	//Gyro_ADC = mpu6050.Get_Gyro() / 4;
