@@ -18,47 +18,48 @@ void IMU_QCF_Init(IMU_QCF_Struct *imu)
 }
 //四元数和二阶低通滤波的结构体的指针
 //陀螺仪数据，单位弧度每秒
-//加速度数据，单位m/s^2
+//加速度数据，直接是原始数据进来
 //当前时间，单位是us
 void IMU_QCF_Update(IMU_QCF_Struct *imu, float gx, float gy, float gz, float ax, float ay, float az, uint32_t timer_us)
 {
 	static uint32_t previousT = 0;
 	float dt;
+	float acc_x = 0, acc_y = 0, acc_z = 0;
 	float V_gravity_x = 0, V_gravity_y = 0, V_gravity_z = 0;
 	float V_error_x = 0, V_error_y = 0, V_error_z = 0;
 	float V_error_I_x = 0, V_error_I_y = 0, V_error_I_z = 0;
 	float r = 0;
 	
-	imu->acc_lpf_x = ax * imu->Acc_LPF2nd.b0 + imu->Acc_LPF2nd.lastout_x * imu->Acc_LPF2nd.a1 - imu->Acc_LPF2nd.preout_x * imu->Acc_LPF2nd.a2;
-	imu->acc_lpf_y = ay * imu->Acc_LPF2nd.b0 + imu->Acc_LPF2nd.lastout_y * imu->Acc_LPF2nd.a1 - imu->Acc_LPF2nd.preout_y * imu->Acc_LPF2nd.a2;
-	imu->acc_lpf_z = az * imu->Acc_LPF2nd.b0 + imu->Acc_LPF2nd.lastout_z * imu->Acc_LPF2nd.a1 - imu->Acc_LPF2nd.preout_z * imu->Acc_LPF2nd.a2;
+	acc_x = ax * imu->Acc_LPF2nd.b0 + imu->Acc_LPF2nd.lastout_x * imu->Acc_LPF2nd.a1 - imu->Acc_LPF2nd.preout_x * imu->Acc_LPF2nd.a2;
+	acc_y = ay * imu->Acc_LPF2nd.b0 + imu->Acc_LPF2nd.lastout_y * imu->Acc_LPF2nd.a1 - imu->Acc_LPF2nd.preout_y * imu->Acc_LPF2nd.a2;
+	acc_z = az * imu->Acc_LPF2nd.b0 + imu->Acc_LPF2nd.lastout_z * imu->Acc_LPF2nd.a1 - imu->Acc_LPF2nd.preout_z * imu->Acc_LPF2nd.a2;
 	
 	imu->Acc_LPF2nd.preout_x = imu->Acc_LPF2nd.lastout_x;
 	imu->Acc_LPF2nd.preout_y = imu->Acc_LPF2nd.lastout_y;
 	imu->Acc_LPF2nd.preout_z = imu->Acc_LPF2nd.lastout_z;
 	
-	imu->Acc_LPF2nd.lastout_x = imu->acc_lpf_x;
-	imu->Acc_LPF2nd.lastout_y = imu->acc_lpf_y;
-	imu->Acc_LPF2nd.lastout_z = imu->acc_lpf_z;
+	imu->Acc_LPF2nd.lastout_x = acc_x;
+	imu->Acc_LPF2nd.lastout_y = acc_y;
+	imu->Acc_LPF2nd.lastout_z = acc_z;
 	
 	
 	dt = (timer_us - previousT) * 1e-6;	
 	previousT = timer_us;
 	
 	//加速度计数据归一化
-	r = sqrtf(imu->acc_lpf_x*imu->acc_lpf_x + imu->acc_lpf_y*imu->acc_lpf_y + imu->acc_lpf_z*imu->acc_lpf_z);
-	imu->acc_lpf_x/=r;
-	imu->acc_lpf_y/=r;
-	imu->acc_lpf_z/=r;
+	r = sqrtf(acc_x*acc_x + acc_y*acc_y + acc_z*acc_z);
+	acc_x/=r;
+	acc_y/=r;
+	acc_z/=r;
 	//提取四元数的等效余弦矩阵中的重力分量
 	V_gravity_x = 2*(imu->Q2*imu->Q4 - imu->Q1*imu->Q3);								
   V_gravity_y = 2*(imu->Q1*imu->Q2 + imu->Q3*imu->Q4);						  
   V_gravity_z = 1-2*(imu->Q2*imu->Q2 + imu->Q3*imu->Q3);
 	
 	//向量叉积得出姿态误差
-	V_error_x = imu->acc_lpf_y * V_gravity_z - imu->acc_lpf_z * V_gravity_y;
-	V_error_y = imu->acc_lpf_z * V_gravity_x - imu->acc_lpf_x * V_gravity_z;
-	V_error_z = imu->acc_lpf_x * V_gravity_y - imu->acc_lpf_y * V_gravity_x;
+	V_error_x = acc_y * V_gravity_z - acc_z * V_gravity_y;
+	V_error_y = acc_z * V_gravity_x - acc_x * V_gravity_z;
+	V_error_z = acc_x * V_gravity_y - acc_y * V_gravity_x;
 	
 	//对误差进行积分	
 	V_error_I_x += V_error_x * imu->ki;

@@ -2,8 +2,6 @@
 #include "IMU.h"
 #include <math.h>
 
-#define GRAVITY         9.80665f    // m/s^2
-
 Vector3f Gyro, Acc;
 Vector3f EarthAcc;
 
@@ -42,10 +40,12 @@ void GetEarthAcc(Vector3f* earth)
 	float w, x, y, z;
 	float v[3];
 	float acc[3];
+	float scale = 1.0f / ((1<<16)/(2*8))*GRAVITY;
 	
-	v[0] = IMU_QCF.acc_lpf_x;//把加速度计数据
-  v[1] = IMU_QCF.acc_lpf_y;
-  v[2] = IMU_QCF.acc_lpf_z;
+	
+	v[0] = IMU_QCF.Acc_LPF2nd.lastout_x * scale;
+  v[1] = IMU_QCF.Acc_LPF2nd.lastout_y * scale;
+  v[2] = IMU_QCF.Acc_LPF2nd.lastout_z * scale;
 	
 	w = IMU_QCF.Q1;//四元数
 	x = IMU_QCF.Q2;
@@ -55,7 +55,6 @@ void GetEarthAcc(Vector3f* earth)
 	acc[0] = w*w*v[0] + 2.0f*y*w*v[2] - 2.0f*z*w*v[1] + x*x*v[0] + 2.0f*y*x*v[1] + 2.0f*z*x*v[2] - z*z*v[0] - y*y*v[0];
 	acc[1] = 2.0f*x*y*v[0] + y*y*v[1] + 2.0f*z*y*v[2] + 2.0f*w*z*v[0] - z*z*v[1] + w*w*v[1] - 2.0f*x*w*v[2] - x*x*v[1];
 	acc[2] = 2.0f*x*z*v[0] + 2.0f*y*z*v[1] + z*z*v[2] - 2.0f*w*y*v[0] - y*y*v[2] + 2.0f*w*x*v[1] - x*x*v[2] + w*w*v[2];
-	acc[2] += GRAVITY;
 	
 	earth->x = acc[0];
 	earth->y = acc[1];

@@ -424,41 +424,47 @@ void Send_DEBUG(void)
 	u8 i;
 	vs16 _temp;
 	u8 sum = 0;
-	
+	float data = 0;
 	data_to_send[_cnt++]=0xAA;
 	data_to_send[_cnt++]=0xAA;
 	data_to_send[_cnt++]=0xF1;
 	data_to_send[_cnt++]=0;
 	
-	data_to_send[_cnt++]=BYTE3(IMU_QCF.roll);
-	data_to_send[_cnt++]=BYTE2(IMU_QCF.roll);
-	data_to_send[_cnt++]=BYTE1(IMU_QCF.roll);
-	data_to_send[_cnt++]=BYTE0(IMU_QCF.roll);
+	data = Acc.z;
+	data_to_send[_cnt++]=BYTE3(data);
+	data_to_send[_cnt++]=BYTE2(data);
+	data_to_send[_cnt++]=BYTE1(data);
+	data_to_send[_cnt++]=BYTE0(data);
 	
-	data_to_send[_cnt++]=BYTE3(IMU_QCF.pitch);
-	data_to_send[_cnt++]=BYTE2(IMU_QCF.pitch);
-	data_to_send[_cnt++]=BYTE1(IMU_QCF.pitch);
-	data_to_send[_cnt++]=BYTE0(IMU_QCF.pitch);
+	data = IMU_QCF.Acc_LPF2nd.lastout_z;
+	data_to_send[_cnt++]=BYTE3(data);
+	data_to_send[_cnt++]=BYTE2(data);
+	data_to_send[_cnt++]=BYTE1(data);
+	data_to_send[_cnt++]=BYTE0(data);
 	
-	data_to_send[_cnt++]=BYTE3(IMU_QCF.yaw);
-	data_to_send[_cnt++]=BYTE2(IMU_QCF.yaw);
-	data_to_send[_cnt++]=BYTE1(IMU_QCF.yaw);
-	data_to_send[_cnt++]=BYTE0(IMU_QCF.yaw);
+	data = IMU_QCF.yaw;
+	data_to_send[_cnt++]=BYTE3(data);
+	data_to_send[_cnt++]=BYTE2(data);
+	data_to_send[_cnt++]=BYTE1(data);
+	data_to_send[_cnt++]=BYTE0(data);
 	
-	data_to_send[_cnt++]=BYTE3(EarthAcc.x);
-	data_to_send[_cnt++]=BYTE2(EarthAcc.x);
-	data_to_send[_cnt++]=BYTE1(EarthAcc.x);
-	data_to_send[_cnt++]=BYTE0(EarthAcc.x);
+	data = EarthAcc.x;
+	data_to_send[_cnt++]=BYTE3(data);
+	data_to_send[_cnt++]=BYTE2(data);
+	data_to_send[_cnt++]=BYTE1(data);
+	data_to_send[_cnt++]=BYTE0(data);
 	
-	data_to_send[_cnt++]=BYTE3(EarthAcc.y);
-	data_to_send[_cnt++]=BYTE2(EarthAcc.y);
-	data_to_send[_cnt++]=BYTE1(EarthAcc.y);
-	data_to_send[_cnt++]=BYTE0(EarthAcc.y);
+	data = EarthAcc.y;
+	data_to_send[_cnt++]=BYTE3(data);
+	data_to_send[_cnt++]=BYTE2(data);
+	data_to_send[_cnt++]=BYTE1(data);
+	data_to_send[_cnt++]=BYTE0(data);
 	
-	data_to_send[_cnt++]=BYTE3(EarthAcc.z);
-	data_to_send[_cnt++]=BYTE2(EarthAcc.z);
-	data_to_send[_cnt++]=BYTE1(EarthAcc.z);
-	data_to_send[_cnt++]=BYTE0(EarthAcc.z);
+	data = EarthAcc.z;
+	data_to_send[_cnt++]=BYTE3(data);
+	data_to_send[_cnt++]=BYTE2(data);
+	data_to_send[_cnt++]=BYTE1(data);
+	data_to_send[_cnt++]=BYTE0(data);
 	
 	data_to_send[3] = _cnt-4;
 	
