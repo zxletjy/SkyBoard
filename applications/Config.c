@@ -7,7 +7,7 @@ void Pilot_Light(void)
 {
 	static u8 cnt = 0;
 	
-	if(ARMED)
+	if(ARMED || NRF_LinkFlag)
 	{
 		if(Acc_CALIBRATED == 0)
 		{

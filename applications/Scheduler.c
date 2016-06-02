@@ -7,6 +7,7 @@ SKYBOARD_Scheduler scheduler;
 static void SKYBOARD_Loop_1000Hz(void)	//1ms÷¥––“ª¥Œ
 {
 	u8 data[32],length = 0;
+	
 	rc.rawData[THROTTLE] = PWM_IN_BUFFER[2];
 	rc.rawData[ROLL] = PWM_IN_BUFFER[3];
 	rc.rawData[YAW] = PWM_IN_BUFFER[0];

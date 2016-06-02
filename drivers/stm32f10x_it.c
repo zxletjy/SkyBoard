@@ -25,6 +25,14 @@
 #include "stm32f10x_it.h"
 #include "board.h"
 #include "Config.h"
+void EXTI15_10_IRQHandler(void)
+{
+	if(EXTI_GetITStatus(EXTI_Line15) != RESET) //确保是否产生了EXTI Line中断
+	{
+		NRF_Check_Event();
+		EXTI_ClearITPendingBit(EXTI_Line15);     //清除中断标志位
+	}  
+}
 /** @addtogroup Template_Project
   * @{
   */

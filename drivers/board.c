@@ -44,6 +44,16 @@ void SkyBoard_Init(void)
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
+	
+	/* 配置P[A|B|C|D|E]13为中断源 */
+  NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);
+	
+	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,ENABLE);
 	//初始化系统滴答定时器
 	cycleCounterInit();
 	SysTick_Config(SystemCoreClock / 1000);	
@@ -70,5 +80,9 @@ void SkyBoard_Init(void)
 	//传感器初始化
 	//初始化MPU6050，1Khz采样率，42Hz低通滤波
 	MPU6050_Init(1000,42);
+	
+	SPI1_Init();
+	
+	NRF_Init(MODEL_RX2,80);
 }
 

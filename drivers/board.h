@@ -43,6 +43,8 @@
 #include "EEPROM.h"
 #include "PWM_In.h"
 #include "usart1.h"
+#include "spi.h"
+#include "nrf24l01.h"
 void SkyBoard_Init(void);
 void SysTick_IRQ(void);
 uint32_t GetSysTime_us(void);
